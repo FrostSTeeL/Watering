@@ -1,3 +1,9 @@
+/* Milisecond examples
+12 Hours = 43200000 ms
+6 Hours  = 21600000 ms
+1 Hour   = 3600000 ms
+*/
+
 const int probe = A0;
 int probeRead;
 int pump = 8;
