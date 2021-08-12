@@ -1,9 +1,13 @@
-/* Milisecond examples
+/* 
+Milisecond examples **********************************
 12 Hours   = 43200000 ms
 6 Hours    = 21600000 ms
 1 Hour     = 3600000 ms
 30 Minutes = 1800000 ms
 1 Minute   = 60000 ms
+
+Pump specs *******************************************
+9v 1 minute = 1.5 liters
 */
 
 const int probe = A0;
