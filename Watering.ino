@@ -28,8 +28,8 @@
 int probe = A0;     // Probe analog port
 int probeRead;      // Probe data variable
 int pump = 8;       // Pump digital port
-int soilLow = 600;  // Moist soil reading
-int soilHigh = 850; // Dry soil reading
+int soilLow = 438;  // Moist soil reading
+int soilHigh = 500; // Dry soil reading
 
 void setup() {
   Serial.begin(9600);
@@ -40,15 +40,16 @@ void setup() {
 }
 
 void loop() {
-  // Debug *****************************************************
 
-  // Serial.println(probe);
 
   // Main logic ************************************************
   probeRead = analogRead(probe);
+  // Debug *****************************************************
+  // Serial.println(probeRead);
   // Map sensor data to %
   probeRead = map(probeRead, soilLow, soilHigh, 100, 0);
   // Sensor data smoothing
+
   int numReads = 10;
   int senseSum = 0;
   for (int k = 0; k < numReads; k++) {
@@ -56,19 +57,29 @@ void loop() {
     delay(100);
   }
   int senseAve = senseSum / numReads;
+
   // Serial monitor print
+  // Serial.println(probeRead);
+  delay(500);
+
   Serial.print("Soil moisture: ");
   Serial.print(senseAve);
   Serial.println("%");
   // Pump trigger
-  if (senseAve > 50)
+  if (senseAve < 30)
   {
     digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(pump, LOW);
+    Serial.println("Pumping Water for 30 seconds");
+    delay(30000);
+    Serial.println("Stopping pump, waiting 30 seconds to remeasure");
+    digitalWrite(LED_BUILTIN, LOW);
     digitalWrite(pump, HIGH);
+    delay(30000);
   }
   else
   {
     digitalWrite(LED_BUILTIN, LOW);
-    digitalWrite(pump, LOW);
+    digitalWrite(pump, HIGH);
   }
 }
