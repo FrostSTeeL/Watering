@@ -1,18 +1,33 @@
-/* 
-Milisecond examples **********************************
-12 Hours   = 43200000 ms
-6 Hours    = 21600000 ms
-1 Hour     = 3600000 ms
-30 Minutes = 1800000 ms
-1 Minute   = 60000 ms
+/*
 
-Pump specs *******************************************
-9v 1 minute = 1.5 liters
+
+  ██╗    ██╗ █████╗ ████████╗███████╗██████╗ ██╗███╗   ██╗ ██████╗
+  ██║    ██║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██║████╗  ██║██╔════╝
+  ██║ █╗ ██║███████║   ██║   █████╗  ██████╔╝██║██╔██╗ ██║██║  ███╗
+  ██║███╗██║██╔══██║   ██║   ██╔══╝  ██╔══██╗██║██║╚██╗██║██║   ██║
+  ╚███╔███╔╝██║  ██║   ██║   ███████╗██║  ██║██║██║ ╚████║╚██████╔╝
+   ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝
+                                             v0.1.0 by FrostSTeeL
+
+  Watering is an Arduino project to water plants autonomously by
+  using soil moisture sensor and a pump.
+
+  Milisecond examples *********************************************
+  12 Hours   = 43200000 ms
+  6 Hours    = 21600000 ms
+  1 Hour     = 3600000 ms
+  30 Minutes = 1800000 ms
+  1 Minute   = 60000 ms
+
+  Pump specs ******************************************************
+  9v 1 minute = 1.5 liters
+
+
 */
 
-const int probe = A0;
-int probeRead;
-int pump = 8;
+int probe = A0;     // Probe analog port
+int probeRead;      // Probe data variable
+int pump = 8;       // Pump digital port
 int soilLow = 600;  // Moist soil reading
 int soilHigh = 850; // Dry soil reading
 
@@ -25,10 +40,11 @@ void setup() {
 }
 
 void loop() {
-  // Debug *******************************************
-  //Serial.println(probe);
+  // Debug *****************************************************
 
-  // Main logic **************************************
+  // Serial.println(probe);
+
+  // Main logic ************************************************
   probeRead = analogRead(probe);
   // Map sensor data to %
   probeRead = map(probeRead, soilLow, soilHigh, 100, 0);
@@ -44,7 +60,7 @@ void loop() {
   Serial.print("Soil moisture: ");
   Serial.print(senseAve);
   Serial.println("%");
-  //Pump trigger
+  // Pump trigger
   if (senseAve > 50)
   {
     digitalWrite(LED_BUILTIN, HIGH);
